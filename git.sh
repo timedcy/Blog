@@ -5,6 +5,7 @@ git push
 bundle exec ejekyll --pygments
 cd _site
 rm Gem*
+rm git.sh
 git init
 git add .
 git commit -m 'update'
