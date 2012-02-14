@@ -12,4 +12,4 @@ $ sudo apt-get install dconf-tools
 {% endhighlight %}
 
 ###修改设置
-运行dconf-editor，展开<code>org/gnome/gedit/preferences/encodings</code>，在<code>auto-detected</code>的<code>value</code>中的UTF8后面加入'GB18030'，在<code>show-in-menu</code>的value中加入'GB18030'即可。
+运行dconf-editor，展开<code>org/gnome/gedit/preferences/encodings</code>，在<code>auto-detected</code>的<code>value</code>中的UTF8**前面**加入'GB18030'，在<code>show-in-menu</code>的value中加入'GB18030'即可。
