@@ -36,3 +36,5 @@ if content_type.startswith('multipart'):
 这样就能正常工作了。
 
 我猜测出现这一问题的原因是apache对IE的AJAX请求的header做了特殊处理，导致这里丢失了信息。欢迎在下方讨论~
+
+**今天把mod\_python换成了mod\_wsgi，没有这个问题了**
