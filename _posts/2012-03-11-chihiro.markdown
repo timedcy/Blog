@@ -40,8 +40,11 @@ categories:
 * 当用户上线时，用户的信息应当被加载到Redis中，存储方式为：
 
     * 在线列表
+
         无序集合。key: "onlines", val: ('user\_id1', 'user\_id2', ...)
+
     * 用户资料
+
         哈希。key: "user:user\_id", val: {'username': XXX, 'gender': XXX, ...)
 
 未完待续
