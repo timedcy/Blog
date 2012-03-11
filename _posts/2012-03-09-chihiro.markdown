@@ -2,8 +2,7 @@
 layout: post
 title: 千寻的架构设计（一）
 categories:
-- NoSQL
-- 课程
+- 软件工程
 ---
 千寻（[https://github.com/terro/Chihiro](https://github.com/terro/Chihiro)）是本学期软件工程课大作业的项目名称，这是一个Kik类的通讯工具，此外，还加入了基于地理位置信息的元素。
 
