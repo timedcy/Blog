@@ -45,6 +45,6 @@ categories:
 
     * 用户资料
 
-        哈希。key: "user:user\_id", val: {'username': XXX, 'gender': XXX, ...)
+        哈希。key: "user:user\_id", val: {'username': XXX, 'gender': XXX, ...}
 
 未完待续
