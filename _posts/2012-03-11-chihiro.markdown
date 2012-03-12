@@ -29,9 +29,9 @@ categories:
 
 *   用户信息（UserProfile）
 
-    用户信息包括用户名、密码（MD5+salt）、性别、出生日期、星座、签名、学校、职业、手机号和地理位置等基本信息。此外用户信息文档（Document）里，还保存有好友集合、标签（如兴趣）集合。这些信息可以以列表的形式保存在MongoDB中。
+    用户信息包括用户名、密码（MD5+salt）、性别、出生日期、星座、签名、学校、职业、手机号、上次活动时间和地理位置等基本信息。此外用户信息文档（Document）里，还保存有好友集合、标签（如兴趣）集合。这些信息可以以列表的形式保存在MongoDB中。
 
-*   活动信息（Activy）
+*   活动信息（Activity）
 
     活动信息包括活动的标题、活动时间、活动地点（文字描述+坐标）、简介、发起人和参与者列表。
 
@@ -45,6 +45,22 @@ categories:
 
     * 用户资料
 
-        哈希。key: "user:user\_id", val: {'username': XXX, 'gender': XXX, ...}
+        信息：哈希。key: "user:user\_id", val: {'username': XXX, 'gender': XXX, ...}
+
+        好友：无序集合。key: "friends:user\_id", val: {'user\_id1', 'user\_id2', ...}
+
+        兴趣：无序集合。key: "interests:user\_id", val: {'word1', 'word2', ...}
+
+* 系统启动时，活跃用户（例如最近7天有过活动的用户）的资料也按上述方式加载到Redis中。
+
+* 系统启动时，从过去某一天（例如30天前）起的活动被加载到内存中：
+
+    基本信息：哈希。key: "activity:activity\_id", val: {'title': XXX, 'introduction':XXX, 'place': XXX, 'position': XXX, ...}
+
+    活动参与者：无序集合。key: "activity:participants:activity\_id", val: ('user\_id1', 'user\_id2', ...)
+
+    发起的活动：有序列表（按照活动日期排列）。key: "activity:own:user\_id", val: ('activity\_id1', 'activity\_id2', ...)
+
+    参与的活动：有序列表（按照活动日期排列）。key: "activity:in:user\_id", val: ('activity\_id1', 'activity\_id2', ...)
 
 未完待续
