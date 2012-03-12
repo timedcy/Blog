@@ -47,9 +47,9 @@ categories:
 
         信息：哈希。key: "user:user\_id", val: {'username': XXX, 'gender': XXX, ...}
 
-        好友：无序集合。key: "friends:user\_id", val: {'user\_id1', 'user\_id2', ...}
+        好友：无序集合。key: "friends:user\_id", val: ('user\_id1', 'user\_id2', ...)
 
-        兴趣：无序集合。key: "interests:user\_id", val: {'word1', 'word2', ...}
+        兴趣：无序集合。key: "interests:user\_id", val: ('word1', 'word2', ...)
 
 * 系统启动时，活跃用户（例如最近7天有过活动的用户）的资料也按上述方式加载到Redis中。
 
