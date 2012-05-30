@@ -13,7 +13,7 @@ categories:
 
 1. C++程序中使用了GSL（GNU Scientific Libarary）。通过Google，Java下有一个叫JGSL的库，但是下载下来后，才发现JGSL只实现了GSL的一小部分功能，而且都不是我们这个项目所需要的。考虑到程序中主要需要的是GSL的线性代数模块，我找到了[JAMA](http://math.nist.gov/javanumerics/jama/)这个项目。然而，由于GSL出于效率的考虑，再结合C++语言的种种特性，大量使用了指针和引用，因此我们需要在JAMA中找到合适的方法来处理。例如，对于
 
-{% highlight C %}
+{% highlight c++ %}
 gsl_blas_dger(a_minus_b, &v.vector, &v.vector, A);
 {% endhighlight %}
 
@@ -27,14 +27,14 @@ A.plusEquals(v.transpose().times(v).timesEquals(a_minus_b));
 2. C++中传递引用，可以修改变量的值。而Java中虽然也传递引用，但却与C++有着非常大的不同。例如，我们可以改变对象的值，但不能改变对象本身。这就给移植带来了一定的困难。
 
 3. 对对象的隐示修改。
-{% highlight C %}
+{% highlight c++ %}
 const c_document* doc =  c->m_docs[j];
 likelihood += doc_inference(doc, &theta_v.vector, log_beta, phi, gamma, word_ss, true); 
 optimize_simplex(gamma, &v.vector, param->lambda_v, &theta_v.vector); 
 {% endhighlight %}
 这里，我们看到在<code>optimize_simplex</code>函数中，传递了两个地址，但实际上，通过查看参数声明，第一个指针实际上是<code>const</code>类型，所以只有第二个指针可能会在代码中被修改。
 经过阅读代码，我们发现，这里<code>theta\_v</code>确实会被修改，因此，在改写为Java代码时，还需要加上额外的一行：
-{% highlight Java %}
+{% highlight java %}
 likelihood += doc_inference(corpus.getDoc(j), theta_v, log_beta, phi, gamma, word_ss, true);
 optimize_simplex(gamma, v, lambda_v, theta_v);
 theta.setMatrix(j, j, 0, num_factors-1, theta_v);
