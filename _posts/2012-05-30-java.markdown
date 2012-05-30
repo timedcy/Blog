@@ -12,17 +12,22 @@ categories:
 下面总结一下移植的一点体会：
 
 1. C++程序中使用了GSL（GNU Scientific Libarary）。通过Google，Java下有一个叫JGSL的库，但是下载下来后，才发现JGSL只实现了GSL的一小部分功能，而且都不是我们这个项目所需要的。考虑到程序中主要需要的是GSL的线性代数模块，我找到了[JAMA](http://math.nist.gov/javanumerics/jama/)这个项目。然而，由于GSL出于效率的考虑，再结合C++语言的种种特性，大量使用了指针和引用，因此我们需要在JAMA中找到合适的方法来处理。例如，对于
-{% highlight C++ %}
+
+{% highlight C %}
 gsl_blas_dger(a_minus_b, &v.vector, &v.vector, A);
 {% endhighlight %}
+
 这样的代码，我们可以改写为：
+
 {% highlight java %}
 A.plusEquals(v.transpose().times(v).timesEquals(a_minus_b));
 {% endhighlight %}
 可以看到，一方面需要理解函数的意义，另一方面，也需要根据库与库之间的差异进行改写，在数学表达式中，向量通常都指列向量，而在JAMA中，是没有向量的，这时只能通过1\*n的矩阵来模拟向量，这样就会产生行向量和列向量的问题，改写时需要格外注意。
+
 2. C++中传递引用，可以修改变量的值。而Java中虽然也传递引用，但却与C++有着非常大的不同。例如，我们可以改变对象的值，但不能改变对象本身。这就给移植带来了一定的困难。
+
 3. 对对象的隐示修改。
-{% highlight C++ %}
+{% highlight C %}
 const c_document* doc =  c->m_docs[j];
 likelihood += doc_inference(doc, &theta_v.vector, log_beta, phi, gamma, word_ss, true); 
 optimize_simplex(gamma, &v.vector, param->lambda_v, &theta_v.vector); 
